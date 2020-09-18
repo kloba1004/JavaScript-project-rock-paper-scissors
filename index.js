@@ -1,0 +1,71 @@
+    let userWins = 0,
+        computerWins = 0;
+    
+    let playerSelection,
+        computerSelection;
+    let buttonRock = document.querySelector('.rock');
+    let buttonPaper = document.querySelector('.paper');
+    let buttonScissors = document.querySelector('.scissors');
+    
+    buttonRock.addEventListener('click', () => playRound('rock'));
+    buttonPaper.addEventListener('click', () => playRound('paper'));
+    buttonScissors.addEventListener('click', () => playRound('scissors'));
+
+    function playRound(playerSelection) {
+        if (userWins===5 || computerWins===5) return;
+        let computerPlay= Math.random()*10;
+        if (computerPlay>=0 && computerPlay<(10/3)) {
+            computerSelection= 'rock';
+            if (playerSelection==='scissors') {
+                computerWins++;
+                roundResult = `You lost this round. Rock beats scissors.`;
+            } else if (playerSelection==='paper') {
+                userWins++;
+                roundResult = `You won this round. Paper beats rock.`;
+            } else{
+                roundResult = `Neither won this round. Rock can\'t beat rock.`;
+            }
+        }
+        else if (computerPlay>=(10/3) && computerPlay<(10/3*2)) {
+            computerSelection= 'paper';
+            if (playerSelection==='scissors') {
+                userWins++;
+                roundResult = `You won this round. Scissors beat paper.`;
+            } else if (playerSelection==='rock') {
+                computerWins++;
+                roundResult = `You lost this round. Paper beats rock.`;
+            } else{
+                roundResult = `Neither won this round. Paper can\'t beat paper.`
+            }
+        } 
+        else {
+            computerSelection= 'scissors';
+            if (playerSelection==='rock') {
+                userWins++;
+                roundResult = `You won this round. Rock beats scissors.`;
+            } else if (playerSelection==='paper') {
+                computerWins++;
+                roundResult = `You lost this round. Scissors beat paper.`;
+            } else{
+                roundResult = `Neither win. Scissors can\'t beat scissors.`;
+            }
+        }
+        
+        let textContainer = document.querySelector("#textContainer");        
+        
+        if (userWins<5 && computerWins<5) {
+            roundText = document.createElement('p');
+            roundText.textContent = `${roundResult} Current Score is: ${userWins}:${computerWins}`;
+            textContainer.appendChild(roundText);
+        } else {
+            if (userWins===5) {
+                roundText = document.createElement('p');
+                roundText.textContent = `You have won. Final score is: ${userWins}:${computerWins}`;
+                textContainer.appendChild(roundText);
+            } else {
+                roundText = document.createElement('p');
+                roundText.textContent = `You have lost. Final score is: ${userWins}:${computerWins}`;
+                textContainer.appendChild(roundText);
+            }
+        }
+    }    
